@@ -1,44 +1,30 @@
-// Importing React hooks: useEffect (for side effects) and useState (to manage state)
 import { useEffect, useState } from "react";
 
-// Main functional component
 function App() {
-  // State to store fetched data from the API
   const [apidata, setApidata] = useState(null);
-
-  // State to store error message if fetch fails
   const [error, setError] = useState(null);
 
-  // useEffect hook runs once after the component is mounted
   useEffect(() => {
     // Fetching data from the local JSON server
     fetch("http://localhost:5000/quotes")
       .then((response) => {
-        // If response is not OK (e.g., 404 or 500), throw a custom error
         if (!response.ok) {
           throw new Error(
             "Failed to fetch data. JSON Server might not be running"
           );
         }
-        // Parse the JSON response
         return response.json();
       })
-      // Set the API data to state
       .then((data) => setApidata(data))
-      // Catch network or fetch-related errors and update the error state
       .catch((err) => setError(err.message));
   }, []);
 
-  // JSX to render the component
   return (
     <>
       <div>
-        {/* Title Header */}
         <h1 className="text-center">
           Fetching data from db.json using JSON Server
         </h1>
-
-        {/* Display error message if there's a problem fetching data */}
         {error && (
           <p
             style={{
@@ -51,8 +37,6 @@ function App() {
             ⚠️ {error}
           </p>
         )}
-
-        {/* If there's no error, display the table with data */}
         {!error && (
           <div>
             <table className="table table-dark table-striped table-bordered">
@@ -80,7 +64,6 @@ function App() {
   );
 }
 
-// Exporting the App component as default
 export default App;
 
 /*
